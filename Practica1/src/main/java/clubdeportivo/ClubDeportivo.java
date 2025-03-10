@@ -17,12 +17,13 @@ public class ClubDeportivo {
 			throw new ClubException("ERROR: el club no puede crearse con un número de grupos 0 o negativo");
 		}
 		this.nombre = nombre;
+		this.ngrupos = 0;
 		grupos = new Grupo[n];
 	}
 
 	private int buscar(Grupo g) {
 		int i = 0;
-		while (i < ngrupos && !g.equals(grupos[i])) {
+		while (i < ngrupos && (grupos[i] == null || !g.equals(grupos[i]))) {
 			i++;
 		}
 		if (i == ngrupos) {
@@ -32,6 +33,9 @@ public class ClubDeportivo {
 	}
 
 	public void anyadirActividad(String[] datos) throws ClubException {
+		if (datos == null || datos.length < 5) { // Verificamos si datos es null o tiene menos de 5 elementos
+			throw new ClubException("ERROR: faltan datos o datos nulos");
+		}
 		try {
 			int plazas = Integer.parseInt(datos[2]);
 			int matriculados = Integer.parseInt(datos[3]);
@@ -60,7 +64,7 @@ public class ClubDeportivo {
 		int p = 0;
 		int i = 0;
 		while (i < ngrupos) {
-			if (grupos[i].getActividad().equals(actividad)) {
+			if (grupos[i] != null && grupos[i].getActividad().equals(actividad)) {
 				p += grupos[i].plazasLibres();
 			}
 			i++;
@@ -92,7 +96,9 @@ public class ClubDeportivo {
 		double cantidad = 0.0;
 		int i = 0;
 		while (i < ngrupos) {
-			cantidad += grupos[i].getTarifa() * grupos[i].getMatriculados();
+			if (grupos[i] != null) { // Evitamos NullPointerException
+				cantidad += grupos[i].getTarifa() * grupos[i].getMatriculados();
+			}
 			i++;
 		}
 		return cantidad;
