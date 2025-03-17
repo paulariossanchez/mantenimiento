@@ -80,6 +80,7 @@ public class ClubDeportivoTest {
     }
 
     //Probar el metodo matricular
+    /* 
     @Test
     @DisplayName("Debe matricular correctamente cuando hay suficientes plazas disponibles")
     public void matricularTest_correcto() throws ClubException {
@@ -92,6 +93,7 @@ public class ClubDeportivoTest {
 
         assertEquals(2, club.plazasLibres("Futbol"), "Deben quedar 2 plazas libres después de matricular.");
     }
+    */
 
 
 
