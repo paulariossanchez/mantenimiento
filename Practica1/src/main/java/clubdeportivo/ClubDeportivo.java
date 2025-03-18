@@ -53,12 +53,16 @@ public class ClubDeportivo {
 		}
 		int pos = buscar(g);
 		if (pos == -1) { // El grupo es nuevo
-			grupos[ngrupos] = g;
+			if (ngrupos >= grupos.length) { // Verificamos si hay espacio en el array
+				throw new ClubException("ERROR: no hay espacio para más grupos en el club.");
+			}
+			grupos[ngrupos] = g; // Guardamos en la posición correcta
 			ngrupos++;
 		} else { // El grupo ya existe --> modificamos las plazas
 			grupos[pos].actualizarPlazas(g.getPlazas());
 		}
 	}
+
 
 	public int plazasLibres(String actividad) {
 		int p = 0;
