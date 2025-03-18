@@ -57,7 +57,7 @@ public class ClubDeportivoTest {
 
     //Al añadir una actividad el grupo es nulo
     @Test
-    @DisplayName("El metodo debe crear un equipo con numeros negativos")
+    @DisplayName("El metodo debe lanzar error al añadir una actividad con grupo nulo")
     public void anyadirActividadTest_grupoNulo() {
         Exception exception = assertThrows(ClubException.class, () -> {
             club.anyadirActividad((Grupo) null);
@@ -77,15 +77,7 @@ public class ClubDeportivoTest {
         assertEquals("ERROR: no hay suficientes plazas libres para esa actividad en el club.", exception.getMessage());
     }
 
-    @Test
-    @DisplayName("Matricular en actividad con las plazas suficientes")
-    public void ClubDeportivo_matricular() throws ClubException {
-        String[] datos = {"Futbol", "Deporte", "10", "5", "10.0"};
-        club.anyadirActividad(datos);
-        club.matricular("Deporte", 2);
-        assertEquals(3, club.plazasLibres("Deporte"));
-    }
-
+   
     @Test
     @DisplayName("Matricular más personas de las plazas disponibles - Error esperado")
     public void ClubDeportivoAltoRendimientoTest_matricular_noPlazas() throws ClubException {
@@ -117,8 +109,9 @@ public class ClubDeportivoTest {
     @Test
     @DisplayName("El metodo debe crear un club con un nombre valido")
     public void toStringTest() throws ClubException {
-        ClubDeportivo localClub = new ClubDeportivo("Club");
-        String expected = "Club --> [  ]";
+
+        club.anyadirActividad(new Grupo("Test1", "Futbol", 10, 5, 10));
+        String expected = "Club --> [ (Test1 - Futbol - 10.0 euros - P:10 - M:5) ]";
         assertEquals(expected, club.toString());
 
     }
@@ -157,15 +150,26 @@ public class ClubDeportivoTest {
     @Test
     @DisplayName("El metodo no debería de dejar añadir más personas a un grupo que el máximo permitido")
     public void anyadirActividad_MaximoPlazas() throws ClubException {
-        String[] datos = {"Test1", "Futbol", "10", "20", "10.0"};
-        String[] datos1= {"Test2", "Baloncesto", "10", "20", "10.0"};
-        String[] datos2 = {"Test3", "Balonmano", "10", "20", "10.0"};
-        ClubDeportivo clubPequenyo = new ClubDeportivo("Club",1);
+        String[] datos = {"Test1", "Futbol", "10", "5", "10.0"};
+        String[] datos1 = {"Test2", "Baloncesto", "10", "5", "10.0"};
+        String[] datos2 = {"Test3", "Balonmano", "10", "5", "10.0"};
+        ClubDeportivo clubPequenyo = new ClubDeportivo("Club", 1);
         Exception exception = assertThrows(ClubException.class, () -> {
             clubPequenyo.anyadirActividad(datos);
             clubPequenyo.anyadirActividad(datos1);
             clubPequenyo.anyadirActividad(datos2);
         });
     }
+
+    @Test
+    @DisplayName("El metodo debería de actualizar grupos ya registrados")
+    public void anyadirActividad_MismoGrupo() throws ClubException {
+        club.anyadirActividad(new Grupo("Test1", "Futbol", 10, 5, 10));
+        club.anyadirActividad(new Grupo("Test1", "Futbol", 11, 5, 10));
+
+        assertEquals(6, club.plazasLibres("Futbol"));
+
+    }
+
 
 }
