@@ -54,6 +54,7 @@ public class ClubDeportivo {
 		int pos = buscar(g);
 		if (pos == -1) { // El grupo es nuevo
 			if (ngrupos >= grupos.length) { // Verificamos si hay espacio en el array
+				//Añadimos la siguiente línea para que se lance una excepción si no hay espacio
 				throw new ClubException("ERROR: no hay espacio para más grupos en el club.");
 			}
 			grupos[ngrupos] = g; // Guardamos en la posición correcta

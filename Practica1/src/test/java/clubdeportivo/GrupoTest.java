@@ -165,6 +165,7 @@ public class GrupoTest {
         int matriculados = 5;
         grupo.matricular(matriculados);
         assertEquals(15, grupo.getMatriculados());
+        assertEquals(5, grupo.plazasLibres());
     }
 
     //El número de matriculados se actualiza a un número menor que 0
