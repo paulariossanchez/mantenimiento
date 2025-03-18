@@ -168,4 +168,39 @@ public class ClubDeportivoTest {
         });
     }
 
+    @Test
+    @DisplayName("El metodo no debería de dejar añadir más grupos si el club está lleno")
+    public void anyadirActividad_MaximoGrupos() throws ClubException {
+        String[] datos = {"Test1", "Futbol", "10", "5", "10.0"};
+        String[] datos1= {"Test2", "Baloncesto", "10", "5", "10.0"};
+        String[] datos2 = {"Test3", "Balonmano", "10", "5", "10.0"};
+        ClubDeportivo clubPequenyo = new ClubDeportivo("Club",2);
+        clubPequenyo.anyadirActividad(datos);
+        clubPequenyo.anyadirActividad(datos1);
+        Exception exception = assertThrows(ClubException.class, () -> {
+            clubPequenyo.anyadirActividad(datos2);
+        });
+    }
+
+    @Test
+    @DisplayName("El metodo añadir hace que si el grupo ya existe se actualicen las plazas")
+    public void anyadirActividad_ActualizarPlazas() throws ClubException {
+        Grupo grupo = new Grupo("Test1", "Futbol", 10, 5, 10.0);
+        Grupo grupo2 = new Grupo("Test1", "Futbol", 20, 5, 10.0);
+        club.anyadirActividad(grupo);
+        club.anyadirActividad(grupo2);
+        assertEquals(15, club.plazasLibres("Futbol"));
+    }
+
+    @Test
+    @DisplayName("El metodo toString se ejecuta correctamente")
+    public void toStringTest2() throws ClubException {
+        String[] datos = {"Test1", "Futbol", "10", "5", "10.0"};
+        club.anyadirActividad(datos);
+        String[] datos2 = {"Test2", "Baloncesto", "10", "5", "10.0"};
+        club.anyadirActividad(datos2);
+        String expected = "Club --> [ (Test1 - Futbol - 10.0 euros - P:10 - M:5), (Test2 - Baloncesto - 10.0 euros - P:10 - M:5) ]";
+        assertEquals(expected, club.toString());
+    }
+
 }
