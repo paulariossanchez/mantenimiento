@@ -37,6 +37,9 @@ public class ClubDeportivoAltoRendimiento extends ClubDeportivo{
 				plazas=maximoPersonasGrupo;
 			}
 			Grupo g = new Grupo(datos[0], datos[1], plazas, matriculados, tarifa);
+			System.out.println("Actividad añadida: " + g.getActividad());
+    		System.out.println("Plazas totales: " + g.getPlazas() + ", Plazas libres: " + g.plazasLibres());
+
 			super.anyadirActividad(g);
 		} catch (NumberFormatException e) {
 			throw new ClubException("ERROR: formato de número incorrecto");
