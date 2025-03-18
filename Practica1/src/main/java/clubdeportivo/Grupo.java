@@ -57,6 +57,7 @@ public class Grupo {
 			throw new ClubException("ERROR: no hay plazas libres suficientes, plazas libre: "+ plazasLibres()+ " y matriculas: "+n);
 		}
 		nmatriculados+=n;
+		nplazas-=n;
 	}
 	
 	public String toString() {
