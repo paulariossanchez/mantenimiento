@@ -22,6 +22,20 @@ public class ClubDeportivoAltoRendimientoTest {
     }
 
     @Test
+    @DisplayName("Añadir actividad - Datos nulos o incompletos")
+    public void ClubDeportivoAltoRendimientoTest_anyadir_datos_nulos() throws ClubException {
+        String nombre = "Málaga";
+        int maximo = 2;
+        double incremento = 2;
+        ClubDeportivoAltoRendimiento clubD = new ClubDeportivoAltoRendimiento(nombre, maximo, incremento);
+        String[] datos = null;
+        assertThrows(ClubException.class, () -> {
+            clubD.anyadirActividad(datos);
+        });
+
+    }
+
+    @Test
     @DisplayName("La clase se inicializa adecuadamente - Parámetro 1 negativos")
     public void ClubDeportivoAltoRendimientoTest_constructor_pneg1() throws ClubException {
         String nombre = "Málaga";
@@ -98,10 +112,6 @@ public class ClubDeportivoAltoRendimientoTest {
         String nombre = "Málaga";
 
         ClubDeportivoAltoRendimiento clubD = new ClubDeportivoAltoRendimiento(nombre, 2, 6, 2);
-
-        //clubD.anyadirActividad(new String[]{"AX21", "Balonsesto", "10", "5", "10.0"});
-        //assertEquals(5, clubD.plazasLibres("Balonsesto"));
-
         String[] datos = {"AX13", "Futbol", "10", "5", "10.0"};
         clubD.anyadirActividad(datos);
 
@@ -112,23 +122,36 @@ public class ClubDeportivoAltoRendimientoTest {
 
     }
 
-    //Test de ingresos
+
+    
+    @Test
+    @DisplayName("El método de prueba que se añade una actividad correctamente")
+    public void ClubDeportivoAltoRendimientoTest_anyadir_numberFormat() throws ClubException {
+        String nombre = "Málaga";
+
+        ClubDeportivoAltoRendimiento clubD = new ClubDeportivoAltoRendimiento(nombre, 2, 6, 2);
+        String[] datos = {"AX13", "Futbol", "Mal", "5", "10.0"};
+        
+
+        Exception exception = assertThrows(ClubException.class, () -> {
+            clubD.anyadirActividad(datos);
+        });
+    }
+
+
     @Test
     @DisplayName("El método de prueba que se añade una actividad correctamente")
     public void ClubDeportivoAltoRendimientoTest_ingresos_expected() throws ClubException {
         String nombre = "Málaga";
 
         ClubDeportivoAltoRendimiento clubD = new ClubDeportivoAltoRendimiento(nombre, 2, 6, 2);
-
-        //clubD.anyadirActividad(new String[]{"AX21", "Balonsesto", "10", "5", "10.0"});
-        //assertEquals(5, clubD.plazasLibres("Balonsesto"));
-
         String[] datos = {"AX13", "Futbol", "10", "5", "10.0"};
         clubD.anyadirActividad(datos);
 
         assertEquals(50.0 * 1.02, clubD.ingresos(), 0.01);
 
     }
+    
 
 
 }
